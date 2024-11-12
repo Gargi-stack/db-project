@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page </title>
+    <style>
+        /* Background styling */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #c3ecff, #e4f9f5);
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        /* Website name styling */
+        .website-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px 20px;
+            background: rgba(0, 123, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Glassmorphism effect styling for form */
+        .form-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        /* Form field styling */
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input[type="text"], input[type="date"], input[type="tel"], select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #333;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h1 class="website-name">Transport Management System</h1>
+
+<div class="form-container">
+    <h2>REGISTER YOURSELF</h2>
+    <form id="registrationForm" action="check.php" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" required onchange="calculateAge()">
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age" readonly>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="contact">Contact Number:</label>
+        <input type="tel" id="contact" name="contact" pattern="[0-9]{10}" required placeholder="1234567890">
+
+        <label for="licenseNumber">License Number:</label>
+        <input type="text" id="licenseNumber" name="licenseNumber" required>
+
+        <p id="errorMessage" class="error"></p>
+        
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function calculateAge() {
+        const dob = new Date(document.getElementById("dob").value);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+
+        document.getElementById("age").value = age;
+    }
+
+    function validateForm() {
+        const age = parseInt(document.getElementById("age").value);
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (isNaN(age) || age < 18) {
+            errorMessage.textContent = "You must be at least 18 years old to register.";
+        } else {
+            errorMessage.textContent = "";
+            alert("Registration successful!");
+            document.getElementById("registrationForm").reset();
+        }
+    }
+</script>
+
+</body>
+</html>
